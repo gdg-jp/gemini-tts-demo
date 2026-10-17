@@ -2,6 +2,13 @@
   "name": "gemini-tts-demo",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24.2"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.ts",
+    "dev": "node --watch --env-file-if-exists=.env server.ts"
+  },
   "dependencies": {
     "@hono/node-server": "^2.1.5",
     "hono": "^4.13.13"
