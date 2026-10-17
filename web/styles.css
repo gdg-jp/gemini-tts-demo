@@ -172,7 +172,7 @@ button {
   max-width: 100%;
   field-sizing: content;
   cursor: text;
-  font-size: calc(var(--script-size) * 0.72);
+  font-size: max(16px, calc(var(--script-size) * 0.72));
   line-height: 1.4;
   padding: 0.3em 2.2em 0.3em 1em;
   border: var(--line) solid var(--ink);
@@ -181,6 +181,11 @@ button {
     url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill="%231e1e1e"/></svg>')
     no-repeat right 0.9em center / 1em;
   transition: background-color 180ms;
+}
+@supports not (field-sizing: content) {
+  .style {
+    width: min(100%, 22em);
+  }
 }
 .style:focus {
   background-image: none;
