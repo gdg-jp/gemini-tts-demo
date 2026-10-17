@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f0f0f0" />
+    <title>Gemini TTS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Roboto+Mono:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <h1 class="lockup">
+        <b aria-hidden="true">{</b> Gemini TTS <b aria-hidden="true">}</b>
+      </h1>
+      <div class="voice">
+        <button
+          class="pill"
+          id="voiceBtn"
+          popovertarget="voices"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-controls="voices"
+          aria-label="声を選ぶ: Kore"
+        >
+          <span id="voiceName">Kore</span>
+          <svg
+            class="chevron"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="m2 4 4 4 4-4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <div id="voices" popover role="listbox" aria-label="声">
+          <button role="option" aria-selected="true" data-voice="Kore">
+            Kore
+          </button>
+          <button role="option" aria-selected="false" data-voice="Puck">
+            Puck
+          </button>
+          <button role="option" aria-selected="false" data-voice="Charon">
+            Charon
+          </button>
+          <button role="option" aria-selected="false" data-voice="Zephyr">
+            Zephyr
+          </button>
+          <button role="option" aria-selected="false" data-voice="Fenrir">
+            Fenrir
+          </button>
+          <button role="option" aria-selected="false" data-voice="Aoede">
+            Aoede
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="editor" aria-label="読み上げる台本">
+      <input
+        class="style"
+        id="style"
+        maxlength="200"
+        aria-label="読み方"
+        placeholder="どんなふうに読む？"
+        value="ゆっくり、噛みしめるように"
+      />
+      <div class="script">
+        <textarea
+          class="text"
+          id="text"
+          maxlength="300"
+          rows="2"
+          spellcheck="false"
+          aria-label="読み上げる文章"
+          placeholder="声にしたい言葉を書いてみよう。"
+        >
+AI 時代の「考える」を取り戻す。</textarea>
+      </div>
+
+      <div class="bottom">
+        <div class="chips" id="chips" role="group" aria-label="台本の例"></div>
+        <button
+          class="speak"
+          id="speak"
+          data-state="idle"
+          aria-describedby="ms"
+        >
+          <span id="speakLabel">読み上げる</span>
+        </button>
+      </div>
+      <output id="ms" class="status" aria-live="polite" hidden></output>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
