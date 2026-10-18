@@ -18,6 +18,40 @@
       <h1 class="lockup">
         <b aria-hidden="true">{</b> Gemini TTS <b aria-hidden="true">}</b>
       </h1>
+      <nav class="switcher" role="tablist" aria-label="音声デモ">
+        <button
+          id="tab-tts"
+          class="chip tab"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-tts"
+          data-feature="tts"
+        >
+          Text to Speech
+        </button>
+        <button
+          id="tab-cloning"
+          class="chip tab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-cloning"
+          data-feature="cloning"
+          tabindex="-1"
+        >
+          Voice Cloning
+        </button>
+        <button
+          id="tab-translation"
+          class="chip tab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-translation"
+          data-feature="translation"
+          tabindex="-1"
+        >
+          Live Translation
+        </button>
+      </nav>
       <div class="voice">
         <button
           class="pill"
@@ -65,43 +99,159 @@
           </button>
         </div>
       </div>
+      <div class="voice" id="cloneVoiceControl" hidden>
+        <select class="pill" id="clonedVoices" aria-label="登録した声">
+          <option value="">自分の声</option>
+        </select>
+      </div>
+      <div class="voice" id="translationControl" hidden>
+        <select id="language" class="pill" aria-label="翻訳先の言語">
+          <option value="en">英語</option>
+          <option value="ja">日本語</option>
+          <option value="ko">韓国語</option>
+          <option value="zh-Hans">中国語</option>
+          <option value="fr">フランス語</option>
+          <option value="de">ドイツ語</option>
+          <option value="es">スペイン語</option>
+          <option value="pt-BR">ポルトガル語</option>
+        </select>
+      </div>
     </header>
 
-    <main class="editor" aria-label="読み上げる台本">
-      <input
-        class="style"
-        id="style"
-        maxlength="200"
-        aria-label="読み方"
-        placeholder="どんなふうに読む？"
-        value="ゆっくり、噛みしめるように"
-      />
-      <div class="script">
-        <textarea
-          class="text"
-          id="text"
-          maxlength="300"
-          rows="2"
-          spellcheck="false"
-          aria-label="読み上げる文章"
-          placeholder="声にしたい言葉を書いてみよう。"
-        >
+    <main class="workspace">
+      <section
+        id="panel-tts"
+        class="editor"
+        role="tabpanel"
+        aria-labelledby="tab-tts"
+        tabindex="0"
+      >
+        <input
+          class="style"
+          id="style"
+          maxlength="200"
+          aria-label="読み方"
+          placeholder="どんなふうに読む？"
+          value="ゆっくり、噛みしめるように"
+        />
+        <div class="script">
+          <textarea
+            class="text"
+            id="text"
+            maxlength="300"
+            rows="2"
+            spellcheck="false"
+            aria-label="読み上げる文章"
+            placeholder="声にしたい言葉を書いてみよう。"
+          >
 AI 時代の「考える」を取り戻す。</textarea>
-      </div>
+        </div>
 
-      <div class="bottom">
-        <div class="chips" id="chips" role="group" aria-label="台本の例"></div>
-        <button
-          class="speak"
-          id="speak"
-          data-state="idle"
-          aria-describedby="ms"
-        >
-          <span id="speakLabel">読み上げる</span>
-        </button>
-      </div>
-      <output id="ms" class="status" aria-live="polite" hidden></output>
+        <div class="bottom">
+          <div
+            class="chips"
+            id="chips"
+            role="group"
+            aria-label="台本の例"
+          ></div>
+          <button
+            class="speak"
+            id="speak"
+            data-state="idle"
+            aria-describedby="ms"
+          >
+            <span id="speakLabel">読み上げる</span>
+          </button>
+        </div>
+        <output id="ms" class="status" aria-live="polite" hidden></output>
+      </section>
+
+      <section
+        id="panel-cloning"
+        class="editor"
+        role="tabpanel"
+        aria-labelledby="tab-cloning"
+        tabindex="0"
+        hidden
+      >
+        <div class="chips capture-controls">
+          <button class="chip" id="recordVoice">声を録音</button>
+          <label class="chip upload"
+            >音声を選ぶ<input id="sourceFile" type="file" accept="audio/*"
+          /></label>
+          <button class="chip" id="cancelRecording" hidden>やめる</button>
+        </div>
+        <div class="script">
+          <textarea
+            id="cloneText"
+            class="text"
+            maxlength="300"
+            rows="2"
+            spellcheck="false"
+            aria-label="自分の声で読み上げる文章"
+            placeholder="声にしたい言葉を書いてみよう。"
+          >
+AI 時代の「考える」を取り戻す。</textarea>
+          <p id="recordingPrompt" class="text recording-prompt" hidden></p>
+        </div>
+        <div class="bottom">
+          <output
+            id="recordingTime"
+            class="recording-time"
+            aria-live="off"
+            hidden
+          ></output>
+          <button class="speak" id="cloneSpeak" disabled>読み上げる</button>
+        </div>
+        <output
+          class="status"
+          id="cloneStatus"
+          aria-live="polite"
+          hidden
+        ></output>
+      </section>
+
+      <section
+        id="panel-translation"
+        class="editor"
+        role="tabpanel"
+        aria-labelledby="tab-translation"
+        tabindex="0"
+        hidden
+      >
+        <div class="script transcripts">
+          <div
+            id="sourceTranscript"
+            class="text transcript-source"
+            role="log"
+            aria-label="話した言葉"
+            data-placeholder="マイクに話しかけてください。"
+          ></div>
+          <div
+            id="translatedTranscript"
+            class="text transcript-target"
+            role="log"
+            aria-label="翻訳した言葉"
+            data-placeholder=""
+          ></div>
+        </div>
+        <div class="bottom">
+          <span id="liveState" class="recording-time" role="status"></span>
+          <button class="speak" id="translate">翻訳する</button>
+        </div>
+        <output
+          class="status"
+          id="translationStatus"
+          aria-live="polite"
+          hidden
+        ></output>
+      </section>
     </main>
+
+    <a class="repo" href="https://github.com/gdg-jp/gemini-tts-demo">
+      <img src="./qr.svg" alt="" width="120" height="120" />
+      GitHub
+    </a>
 
     <script type="module" src="./app.js"></script>
   </body>

@@ -28,6 +28,7 @@ body {
 }
 button,
 input,
+select,
 textarea {
   -webkit-tap-highlight-color: transparent;
 }
@@ -43,9 +44,9 @@ button {
   color: var(--ink);
 }
 .top {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
   width: min(var(--workspace), calc(100% - 2 * var(--gutter)));
   margin-inline: auto;
@@ -153,12 +154,14 @@ button {
   justify-content: center;
   align-items: flex-start;
   gap: 24px;
-  width: min(var(--workspace), calc(100% - 2 * var(--gutter)));
-  margin: 48px auto;
+  width: 100%;
+  margin: 64px 0;
   align-self: center;
 }
 .voice {
-  flex: none;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
 }
 .style,
 .text {
@@ -273,6 +276,29 @@ button {
 .speak[data-state="playing"] {
   background: var(--stop);
 }
+.repo {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 24px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+.repo img {
+  display: block;
+  padding: 6px;
+  border: var(--line) solid var(--ink);
+  border-radius: 14px;
+  background: #fff;
+}
+@media (max-width: 640px), (max-height: 560px) {
+  .repo {
+    display: none;
+  }
+}
 @media (hover: hover) {
   .pill:hover,
   .chip:hover {
@@ -374,5 +400,136 @@ button {
     min-width: 128px;
     padding-inline: 18px;
     font-size: 16px;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+.workspace {
+  width: min(var(--workspace), calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+  min-width: 0;
+  padding-bottom: 100px;
+  display: grid;
+}
+.switcher {
+  display: flex;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.tab {
+  color: var(--muted);
+  white-space: nowrap;
+  padding-inline: 14px;
+  font-size: 14px;
+}
+.tab[aria-selected="true"] {
+  background: var(--note);
+  color: var(--ink);
+}
+
+.editor:focus-visible {
+  outline: none;
+}
+.capture-controls {
+  align-items: center;
+}
+.capture-controls .chip:first-child {
+  background: var(--note);
+}
+.capture-controls .chip[data-recording="true"] {
+  background: var(--stop);
+}
+.upload {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.upload:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+.upload:has(input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+button:disabled,
+select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.voice select {
+  max-width: min(240px, 40vw);
+  text-overflow: ellipsis;
+}
+.recording-prompt {
+  max-height: none;
+}
+.recording-time {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+#cloneSpeak,
+#translate {
+  margin-left: auto;
+}
+.transcripts {
+  display: grid;
+  gap: 24px;
+}
+.transcripts .text {
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  max-height: 24vh;
+}
+.transcript-source {
+  color: var(--muted);
+  font-size: max(18px, calc(var(--script-size) * 0.75));
+  min-height: 2em;
+}
+.transcript-target {
+  min-height: 3.4em;
+}
+.transcript-source:empty::before {
+  content: attr(data-placeholder);
+}
+@media (max-width: 860px) {
+  .top {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 24px;
+  }
+  .voice {
+    grid-column: 2;
+  }
+  .switcher {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+@media (max-width: 640px) {
+  .switcher {
+    width: 100%;
+  }
+  .tab {
+    flex: 1;
+    padding-inline: 4px;
+    font-size: 11px;
+  }
+  .workspace {
+    padding-bottom: 48px;
   }
 }
