@@ -101,7 +101,7 @@
       </div>
       <div class="voice" id="cloneVoiceControl" hidden>
         <select class="pill" id="clonedVoices" aria-label="登録した声">
-          <option value="">自分の声</option>
+          <option value="">新規作成</option>
         </select>
       </div>
       <div class="voice" id="translationControl" hidden>
@@ -219,14 +219,14 @@ AI 時代の「考える」を取り戻す。</textarea>
         tabindex="0"
         hidden
       >
-        <div class="script transcripts">
-          <div
-            id="sourceTranscript"
-            class="text transcript-source"
-            role="log"
-            aria-label="話した言葉"
-            data-placeholder="マイクに話しかけてください。"
-          ></div>
+        <div
+          id="sourceTranscript"
+          class="text transcript-source"
+          role="log"
+          aria-label="話した言葉"
+          data-placeholder="マイクに話しかけてください。"
+        ></div>
+        <div class="script">
           <div
             id="translatedTranscript"
             class="text transcript-target"

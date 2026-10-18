@@ -74,8 +74,6 @@ for (const t of templates) {
 function updateEditor() {
   const text = $("text");
   setState(current ? "playing" : "idle");
-  text.style.height = "auto";
-  text.style.height = `${text.scrollHeight}px`;
   [...$("chips").children].forEach((b, i) => {
     const t = templates[i];
     b.setAttribute(
@@ -90,8 +88,6 @@ function updateEditor() {
 }
 for (const field of [$("text"), $("style")])
   field.addEventListener("input", updateEditor);
-window.addEventListener("resize", updateEditor);
-document.fonts.ready.then(updateEditor);
 updateEditor();
 
 $("speak").addEventListener("click", () => (current ? stop() : speak()));

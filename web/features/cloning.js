@@ -172,7 +172,10 @@ $("cloneSpeak").addEventListener("click", () => {
   );
 });
 $("cloneText").addEventListener("input", update);
-$("clonedVoices").addEventListener("change", update);
+$("clonedVoices").addEventListener("change", () => {
+  update();
+  if (!$("clonedVoices").value) void record();
+});
 
 export function activate() {
   update();
